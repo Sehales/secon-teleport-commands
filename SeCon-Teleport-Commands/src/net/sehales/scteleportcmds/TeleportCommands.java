@@ -25,6 +25,16 @@ public class TeleportCommands {
 		this.utils = utils;
 	}
 
+	@SeConCommandHandler(name = "back", help = "<darkaqua>go back to your last teleport location or your deathpoint (depends on permissions);<darkaqua>usage: /back", permission = "secon.command.back", type = CommandType.PLAYER)
+	public void onBackCmd(Player player, SeConCommand cmd, String[] args) {
+		Location l = PositionTracker.getLastLocation(player.getName());
+		if (l == null) {
+			chat.sendFormattedMessage(player, tc.getLanguageInfoNode("teleport.back-no-location"));
+			return;
+		}
+		utils.teleport(player, l, TeleportCause.COMMAND);
+	}
+
 	@SeConCommandHandler(name = "teleport", help = "<darkaqua>teleport to another player or one player to another one;<darkaqua>usage: /teleport [player] [secondplayer]", additionalPerms = "other:secon.command.teleport.other", permission = "secon.command.teleport", aliases = "tp,tp2p,teleportplayertoplayer,tpp2p,tpptp")
 	public void onTeleportCmd(CommandSender sender, SeConCommand cmd, String[] args) {
 		if (args.length > 0) {

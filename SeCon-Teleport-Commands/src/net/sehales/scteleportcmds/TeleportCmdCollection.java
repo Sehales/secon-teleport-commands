@@ -25,6 +25,8 @@ public class TeleportCmdCollection extends SeConAddon {
 	private void initConfig() {
 		addConfigNode("teleport-world.permission.remember-fly", "secon.remember.fly");
 		addConfigNode("teleport-world.permission.remember-gamemode", "secon.remember.gamemode");
+		addConfigNode("back.track-permission.death", "secon.command.back.death");
+		addConfigNode("back.track-permission.tp", "secon.command.back.tp");
 		saveConfig();
 	}
 
@@ -45,6 +47,7 @@ public class TeleportCmdCollection extends SeConAddon {
 		addLanguageInfoNode("teleport.request-denied-sender-msg", "<gold>You have denied the teleport request of <green><player>");
 		addLanguageInfoNode("teleport.request-accepted-sender-msg", "<gold>You have accepted the teleport request of <green><player>");
 		addLanguageInfoNode("teleport.no-request-pending", "<red>You have no pending request");
+		addLanguageInfoNode("teleport.back-no-location", "<red>There is no location, you can go back to");
 	}
 
 	@Override
@@ -57,7 +60,7 @@ public class TeleportCmdCollection extends SeConAddon {
 		initConfig();
 		initLanguage();
 		TCUtils utils = new TCUtils(this);
-		registerListener(new PlayerListener());
+		registerListener(new PlayerListener(this));
 		registerCommands(new TeleportCommands(this, utils));
 		return true;
 	}
