@@ -71,6 +71,36 @@ public class TeleportCommands {
 			chat.sendFormattedMessage(sender, LanguageHelper.INFO_WRONG_ARGUMENTS);
 	}
 
+	@SeConCommandHandler(name = "teleportrequest", help = "<darkaqua>send a teleport request to another player;<darkaqua>usage: /teleportrequest [player]", permission = "secon.command.teleportrequest", type = CommandType.PLAYER, aliases = "tpr")
+	public void onTeleportRequestCmd(Player player, SeConCommand cmd, String[] args) {
+		if (args.length > 0) {
+			Player p = Bukkit.getPlayer(args[0]);
+			if (p == null) {
+				chat.sendFormattedMessage(player, LanguageHelper.INFO_PLAYER_NOT_EXIST.replace("<player>", args[0]));
+				return;
+			}
+			new Request(p.getName(), player.getName(), Request.TYPE_TPTO);
+			chat.sendFormattedMessage(p, tc.getLanguageInfoNode("teleport.tpr-request-msg").replace("<sender>", player.getName()));
+			chat.sendFormattedMessage(player, tc.getLanguageInfoNode("teleport.tpr-request-sender-msg").replace("<player>", p.getName()));
+		} else
+			chat.sendFormattedMessage(player, LanguageHelper.INFO_WRONG_ARGUMENTS);
+	}
+
+	@SeConCommandHandler(name = "teleportrequesthere", help = "<darkaqua>send a teleport request to another player;<darkaqua>usage: /teleportrequesthere [player]", permission = "secon.command.teleportrequesthere", type = CommandType.PLAYER, aliases = "tprh")
+	public void onTeleportRequestHereCmd(Player player, SeConCommand cmd, String[] args) {
+		if (args.length > 0) {
+			Player p = Bukkit.getPlayer(args[0]);
+			if (p == null) {
+				chat.sendFormattedMessage(player, LanguageHelper.INFO_PLAYER_NOT_EXIST.replace("<player>", args[0]));
+				return;
+			}
+			new Request(p.getName(), player.getName(), Request.TYPE_TPHERE);
+			chat.sendFormattedMessage(p, tc.getLanguageInfoNode("teleport.tprh-request-msg").replace("<sender>", player.getName()));
+			chat.sendFormattedMessage(player, tc.getLanguageInfoNode("teleport.tprh-request-sender-msg").replace("<player>", p.getName()));
+		} else
+			chat.sendFormattedMessage(player, LanguageHelper.INFO_WRONG_ARGUMENTS);
+	}
+
 	@SeConCommandHandler(name = "teleportworld", help = "<darkaqua>teleport yourself or another player into another world;<darkaqua>usage: /teleportworld [player] [world]", additionalPerms = "world:secon.command.teleportworld.world.<world>,other:secon.command.teleportworld.other", permission = "secon.command.teleportworld", aliases = "tpw,teleportw,tpworld")
 	public void onTeleportWorldCmd(CommandSender sender, SeConCommand cmd, String[] args) {
 		if (args.length > 0) {
@@ -105,6 +135,33 @@ public class TeleportCommands {
 			}
 		} else
 			chat.sendFormattedMessage(sender, LanguageHelper.INFO_WRONG_ARGUMENTS);
+	}
+
+	@SeConCommandHandler(name = "tpaccept", help = "<darkaqua>accept a teleport request;<darkaqua>usage: /tpaccept", permission = "secon.command.tpaccept", type = CommandType.PLAYER, aliases = "tpyes,tpy")
+	public void onTPAcceptCmd(Player player, SeConCommand cmd, String[] args) {
+		if (RequestHandler.hasRequest(player.getName())) {
+			Request req = RequestHandler.getRequest(player.getName());
+			if (req.getSender() != null) {
+				if (req.getType() == Request.TYPE_TPHERE)
+					utils.teleport(player, req.getSender().getLocation(), TeleportCause.COMMAND);
+				else
+					utils.teleport(req.getSender(), player.getLocation(), TeleportCause.COMMAND);
+				chat.sendFormattedMessage(req.getReceiver(), tc.getLanguageInfoNode("teleport.request-accepted-msg").replace("<sender>", player.getName()));
+				chat.sendFormattedMessage(player, tc.getLanguageInfoNode("teleport.request-accepted-sender-msg").replace("<player>", req.getReceiver().getName()));
+			}
+		}
+		chat.sendFormattedMessage(player, tc.getLanguageInfoNode("teleport.no-request-pending"));
+	}
+
+	@SeConCommandHandler(name = "tpdeny", help = "<darkaqua>deny a teleport request;<darkaqua>usage: /tpdeny", permission = "secon.command.tpdeny", type = CommandType.PLAYER, aliases = "tpno,tpn")
+	public void onTPDenyCmd(Player player, SeConCommand cmd, String[] args) {
+		if (RequestHandler.hasRequest(player.getName())) {
+			Request req = RequestHandler.getRequest(player.getName());
+			chat.sendFormattedMessage(req.getReceiver(), tc.getLanguageInfoNode("teleport.request-denied-msg").replace("<sender>", player.getName()));
+			chat.sendFormattedMessage(player, tc.getLanguageInfoNode("teleport.request-denied-sender-msg").replace("<player>", req.getReceiver().getName()));
+			RequestHandler.remove(player.getName());
+		}
+		chat.sendFormattedMessage(player, tc.getLanguageInfoNode("teleport.no-request-pending"));
 	}
 
 	@SeConCommandHandler(name = "tploc", help = "<darkaqua>teleport to a given location;<darkaqua>usage: /tploc [x] [y] [z] [world]", additionalPerms = "world:secon.command.tploc.world.<world>", permission = "secon.command.tploc", aliases = "tppos", type = CommandType.PLAYER)
