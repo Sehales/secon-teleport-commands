@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Teleport-Command-Collection" default="jar" basedir=".">
 <property environment="env"/>
-<property name="buildname" value="${env.JOB_NAME}-${env.BUILD_NUMBER}.jar"/>
+<property name="buildname" value="${env.JOB_NAME}-BUILD_${env.BUILD_NUMBER}.jar"/>
 <property name="build" value="bin" />
 <property name="jar" value="jar" />
 <property name="craftbukkit" value="lib/craftbukkit.jar" />
