@@ -23,8 +23,8 @@ public class TeleportCmdCollection extends SeConAddon {
 	}
 
 	private void initConfig() {
-		addConfigNode("teleport-world.permission.remember-fly", "secon.remember.fly");
-		addConfigNode("teleport-world.permission.remember-gamemode", "secon.remember.gamemode");
+		addConfigNode("teleport-world.permission.remember-fly", "secon.remember.worldchange.fly");
+		addConfigNode("teleport-world.permission.remember-gamemode", "secon.remember.worldchange.gamemode");
 		addConfigNode("back.track-permission.death", "secon.command.back.death");
 		addConfigNode("back.track-permission.tp", "secon.command.back.tp");
 		saveConfig();
