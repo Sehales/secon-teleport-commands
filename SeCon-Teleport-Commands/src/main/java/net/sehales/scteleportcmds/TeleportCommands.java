@@ -7,7 +7,7 @@ import net.sehales.secon.command.MethodCommandHandler;
 import net.sehales.secon.command.SeConCommand;
 import net.sehales.secon.config.LanguageConfig;
 import net.sehales.secon.utils.MiscUtils;
-import net.sehales.secon.utils.mc.ChatUtils;
+import net.sehales.secon.utils.chat.ChatUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -37,7 +37,7 @@ public class TeleportCommands {
         utils.teleport(player, l, TeleportCause.COMMAND);
     }
     
-    @MethodCommandHandler(name = "teleport", description = "<darkaqua>teleport to another player or one player to another one", usage = "<darkaqua>/teleport [player] [secondplayer]", additionalPerms = "other:secon.command.teleport.other", permission = "secon.command.teleport", aliases = { "tp", "tp2p", "teleportplayertoplayer", "tpp2p", "tpptp" })
+    @MethodCommandHandler(name = "teleport", description = "<darkaqua>teleport to another player or one player to another one", usage = "<darkaqua>/teleport [player] [secondplayer]", additionalPerms = "other:secon.command.teleport.other", permission = "secon.command.teleport", aliases = { "tp", "tp2p", "teleportplayertoplayer", "tpp2p" })
     public void onTeleportCmd(CommandSender sender, SeConCommand cmd, String[] args) {
         if (args.length > 0) {
             if (args.length > 1) {
