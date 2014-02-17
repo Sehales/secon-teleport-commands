@@ -33,7 +33,7 @@ public class PlayerListener implements Listener {
     @EventHandler()
     public void onPlayerTeleport(PlayerTeleportEvent e) {
         if (MiscUtils.hasPermission(e.getPlayer(), tc.getConf().getString("back.track-permission.tp"), false)) {
-            tc.getPositionTracker().update(e.getPlayer().getName(), e.getPlayer().getLocation());
+            tc.getPositionTracker().update(e.getPlayer().getName(), e.getFrom());
         }
     }
 }

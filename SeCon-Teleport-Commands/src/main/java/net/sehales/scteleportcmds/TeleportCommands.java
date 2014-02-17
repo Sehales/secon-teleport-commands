@@ -119,7 +119,7 @@ public class TeleportCommands {
         }
     }
     
-    @MethodCommandHandler(name = "teleportworld", description = "<darkaqua>teleport yourself or another player into another world", usage = "<darkaqua>/teleportworld [player] [world]", additionalPerms = "world:secon.command.teleportworld.world.<world>,other:secon.command.teleportworld.other", permission = "secon.command.teleportworld", aliases = { "tpw", "teleportw", "tpworld" })
+    @MethodCommandHandler(name = "teleportworld", description = "<darkaqua>teleport yourself or another player into another world", usage = "<darkaqua>/teleportworld [player] [world]", additionalPerms = { "world:secon.command.teleportworld.world.<world>", "other:secon.command.teleportworld.other" }, permission = "secon.command.teleportworld", aliases = { "tpw", "teleportw", "tpworld" })
     public void onTeleportWorldCmd(CommandSender sender, SeConCommand cmd, String[] args) {
         if (args.length > 0) {
             if (args.length > 1) {
