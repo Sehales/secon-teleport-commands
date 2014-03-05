@@ -20,18 +20,23 @@ public class TCUtils {
         GameMode gamemode = player.getGameMode();
         boolean fly = player.getAllowFlight();
         boolean flying = player.isFlying();
+        String currentWorld = player.getLocation().getWorld().getName();
+        
         player.teleport(target, cause);
-        if (MiscUtils.hasPermission(player, tc.getConf().getString("teleport-world.permission.remember-gamemode"), false)) {
-            player.setGameMode(gamemode);
-        } else {
-            player.setGameMode(GameMode.SURVIVAL);
-        }
-        if (MiscUtils.hasPermission(player, tc.getConf().getString("teleport-world.permission.remember-fly"), false)) {
-            player.setAllowFlight(fly);
-            player.setFlying(flying);
-        } else {
-            player.setFlying(false);
-            player.setAllowFlight(false);
+        if (!currentWorld.equals(target.getWorld().getName())) {
+            if (MiscUtils.hasPermission(player, tc.getConf().getString("teleport-world.permission.remember-gamemode"), false)) {
+                player.setGameMode(gamemode);
+            } else {
+                player.setGameMode(GameMode.SURVIVAL);
+            }
+            
+            if (MiscUtils.hasPermission(player, tc.getConf().getString("teleport-world.permission.remember-fly"), false)) {
+                player.setAllowFlight(fly);
+                player.setFlying(flying);
+            } else {
+                player.setFlying(false);
+                player.setAllowFlight(false);
+            }
         }
     }
 }
